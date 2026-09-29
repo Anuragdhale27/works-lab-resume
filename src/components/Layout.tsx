@@ -8,7 +8,7 @@ export function Layout({ children, variant }: { children: ReactNode; variant?: '
   return (
     <>
       <SkipLink fontClass={fontClass} />
-      <Nav fontClass={fontClass} />
+      <Nav fontClass={fontClass} showThemeToggle={variant === 'landing'} />
       <main id="main" tabIndex={-1}>
         {children}
       </main>

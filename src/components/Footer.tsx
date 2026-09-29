@@ -7,7 +7,7 @@ export function Footer({ fontClass }: { fontClass?: string } = {}) {
         <div className="footer-inner">
           <div>
             <div className="footer-brand-name">
-              Works<span style={{ color: 'var(--accent)' }}>Lab</span>
+              Works<span className="footer-brand-accent">Lab</span>
             </div>
             <div className="footer-brand-desc">Digital products built to be useful.</div>
           </div>

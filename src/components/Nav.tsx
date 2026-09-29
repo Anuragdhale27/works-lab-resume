@@ -1,8 +1,9 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CONFIG, goToPayment } from '../lib/config';
+import { ThemeToggle } from '../pages/landing/theme/ThemeToggle';
 
-export function Nav({ fontClass }: { fontClass?: string } = {}) {
+export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showThemeToggle?: boolean } = {}) {
   const [open, setOpen] = useState(false);
 
   return (
@@ -26,6 +27,14 @@ export function Nav({ fontClass }: { fontClass?: string } = {}) {
               <li>
                 <a href="/#faq">FAQ</a>
               </li>
+              {showThemeToggle && (
+                <li>
+                  {/* Slot for small nav controls (theme now, language later). */}
+                  <div className="lp-nav-tools">
+                    <ThemeToggle variant="compact" />
+                  </div>
+                </li>
+              )}
               <li>
                 <a
                   href="/#templates"
@@ -72,7 +81,7 @@ export function Nav({ fontClass }: { fontClass?: string } = {}) {
         <a href="/#faq" onClick={() => setOpen(false)}>FAQ</a>
         <a
           href="/#templates"
-          style={{ color: 'var(--accent)', fontWeight: 700 }}
+          className="mobile-nav-cta"
           data-cta="nav"
           onClick={(e) => {
             e.preventDefault();
@@ -82,6 +91,11 @@ export function Nav({ fontClass }: { fontClass?: string } = {}) {
         >
           Build resume – ₹{CONFIG.PRODUCT_PRICE}
         </a>
+        {showThemeToggle && (
+          <div className="lp-nav-tools lp-nav-tools--panel">
+            <ThemeToggle variant="segmented" />
+          </div>
+        )}
       </div>
     </>
   );

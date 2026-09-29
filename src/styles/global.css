@@ -244,6 +244,7 @@ footer {
   margin-bottom: 8px;
 }
 
+.footer-brand-accent { color: var(--accent); }
 .footer-brand-desc { font-size: 0.85rem; }
 
 .footer-links {
@@ -756,6 +757,7 @@ footer {
 .mobile-nav.open { display: flex; }
 .mobile-nav a { padding: 10px 0; font-weight: 500; border-bottom: 1px solid var(--gray-200); }
 .mobile-nav a:last-child { border: none; }
+.mobile-nav .mobile-nav-cta { color: var(--accent); font-weight: 700; }
 
 /* Toast */
 .toast {

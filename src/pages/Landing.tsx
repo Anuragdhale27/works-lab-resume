@@ -11,11 +11,13 @@ import { Pricing } from './landing/sections/Pricing';
 import { Faq } from './landing/sections/Faq';
 import { FinalCta } from './landing/sections/FinalCta';
 import { useFadeIn } from '../hooks/useFadeIn';
+import { useLandingTheme } from './landing/theme/useLandingTheme';
 import './landing/fonts';
 import '../styles/landing.css';
 
 export function Landing() {
   useFadeIn();
+  useLandingTheme();
 
   return (
     <Layout variant="landing">

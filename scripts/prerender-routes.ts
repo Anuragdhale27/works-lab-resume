@@ -2,6 +2,7 @@ import * as fs from 'fs';
 import * as path from 'path';
 import { PUBLIC_ROUTES, getRouteMeta, SITE_URL } from '../src/seo/routes';
 import { TEMPLATE_META_REGISTRY } from '../src/templates/meta';
+import { THEME_NO_FLASH_SCRIPT, THEME_NO_FLASH_STYLE } from '../src/pages/landing/theme/noFlashScript';
 
 const DIST_DIR = path.join(process.cwd(), 'dist');
 const TEMPLATE_FILE = path.join(DIST_DIR, 'index.html');
@@ -230,6 +231,15 @@ function main(): void {
       }
     }
 
+    // Homepage only: set the landing theme before first paint (no light flash for dark visitors).
+    if (outPath === 'index.html') {
+      const themeTags = `    <script>${THEME_NO_FLASH_SCRIPT}</script>\n    <style>${THEME_NO_FLASH_STYLE}</style>`;
+      const headMatch = html.match(/<head[^>]*>/);
+      if (headMatch) {
+        html = html.replace(headMatch[0], () => `${headMatch[0]}\n${themeTags}`);
+      }
+    }
+
     // Inject BreadcrumbList on template pages
     if (includeBreadcrumb && routePath.startsWith('/template/')) {
       const templateKey = routePath.split('/')[2];
@@ -281,6 +291,18 @@ function main(): void {
       validateSingleTag(html, /<link\s+rel="canonical"\s+href="[^"]*">/g, '<link canonical>');
     }
   });
+
+  // Guard: the no-flash theme script belongs to the homepage only.
+  const marker = 'workslab_theme';
+  fs.readdirSync(DIST_DIR, { recursive: true, encoding: 'utf-8' })
+    .filter((f) => f.endsWith('.html'))
+    .forEach((f) => {
+      const has = fs.readFileSync(path.join(DIST_DIR, f), 'utf-8').includes(marker);
+      if (has !== (f === 'index.html')) {
+        console.error(`ERROR: theme script ${has ? 'found in' : 'missing from'} dist/${f}`);
+        process.exit(1);
+      }
+    });
 
   // Create 404.html with noindex
   let notFoundHtml = templateHtml;
