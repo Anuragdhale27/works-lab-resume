@@ -13,7 +13,7 @@ import { ACCENT_PRESETS } from '../lib/accentPresets';
  * from this list in the same change; the goal is for it to end up empty.
  * Structure, placeholder and digit checks still run for every language.
  */
-const PLACEHOLDER_LANGS: LangCode[] = ['ta', 'te'];
+const PLACEHOLDER_LANGS: LangCode[] = [];
 
 /** Strings that may legitimately equal English or lack native script (none yet). */
 const SAME_AS_ENGLISH_OK = new Set<string>([]);
