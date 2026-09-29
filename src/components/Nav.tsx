@@ -30,6 +30,7 @@ export function Nav() {
                 <a
                   href="/#templates"
                   className="nav-cta"
+                  data-cta="nav"
                   onClick={(e) => {
                     e.preventDefault();
                     goToPayment('modern');
@@ -62,6 +63,7 @@ export function Nav() {
         <a
           href="/#templates"
           style={{ color: 'var(--accent)', fontWeight: 700 }}
+          data-cta="nav"
           onClick={(e) => {
             e.preventDefault();
             setOpen(false);

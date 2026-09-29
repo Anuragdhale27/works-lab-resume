@@ -1002,6 +1002,8 @@ footer {
     min-height: 56px;
     padding: 10px 0;
   }
+  /* Nav bar is 57px tall here (56px + 1px border); keep the panel flush. */
+  div.mobile-nav { top: 57px; }
 }
 
 @media (max-width: 600px) {
