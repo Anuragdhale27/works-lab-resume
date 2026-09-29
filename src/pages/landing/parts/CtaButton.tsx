@@ -2,7 +2,7 @@ import type { ReactNode } from 'react';
 import { goToPayment } from '../../../lib/config';
 
 interface CtaButtonProps {
-  variant?: 'primary' | 'ghost' | 'ghost-night';
+  variant?: 'primary' | 'ghost' | 'ghost-night' | 'light';
   children: ReactNode;
   dataCta?: string;
 }

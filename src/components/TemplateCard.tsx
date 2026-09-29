@@ -19,7 +19,7 @@ export function TemplateCard({ template }: { template: TemplateMeta }) {
             <Link to={`/template/${template.key}`} className="btn btn-outline btn-sm">
               Preview
             </Link>
-            <button className="btn btn-primary btn-sm" onClick={() => goToPayment(template.key)}>
+            <button className="btn btn-primary btn-sm" data-cta={`card-${template.key}`} onClick={() => goToPayment(template.key)}>
               Get this
             </button>
           </div>
