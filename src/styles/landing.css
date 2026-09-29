@@ -1299,3 +1299,114 @@ html[data-lp-theme='dark'] .lp-price-card {
   box-shadow: 0 0 0 1px rgba(79, 209, 165, 0.12), 0 30px 80px -36px rgba(14, 122, 90, 0.55);
 }
 html[data-lp-theme='dark'] section.lp-final { border-top: 1px solid rgba(79, 209, 165, 0.25); }
+
+/* ============================================================
+   LANGUAGE SWITCHER (desktop menu + mobile grid)
+   ============================================================ */
+.lp-lang .menu-trigger {
+  gap: 6px;
+  min-width: 44px;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 1px solid transparent;
+  border-radius: 10px;
+  color: var(--lp-muted);
+  font-family: var(--lp-font);
+  transition: background-color 0.15s, color 0.15s;
+}
+.lp-lang .menu-trigger:hover { opacity: 1; background: var(--lp-accent-tint); color: var(--lp-ink); }
+.lp-lang .menu-trigger:focus-visible { outline: 2px solid var(--lp-focus); outline-offset: 2px; }
+.lp-lang-trigger { display: inline-flex; align-items: center; gap: 6px; }
+.lp-lang-trigger svg { width: 20px; height: 20px; flex: none; }
+.lp-lang-code { font-size: 0.8rem; font-weight: 600; letter-spacing: 0.02em; }
+.lp-lang .menu-content {
+  font-family: var(--lp-font);
+  background: var(--lp-paper);
+  border-color: var(--lp-line);
+  min-width: 170px;
+}
+.lp-lang .menu-item {
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 44px;
+  color: var(--lp-ink);
+  font-family: var(--lp-font);
+  font-size: 0.95rem;
+}
+.lp-lang .menu-item:hover,
+.lp-lang .menu-item:focus { background: var(--lp-accent-tint); }
+.lp-lang .menu-item:focus-visible { outline: 2px solid var(--lp-focus); outline-offset: -2px; }
+.lp-lang .menu-item[aria-current='true'] { font-weight: 700; }
+.menu-item-check { color: var(--lp-accent-text); font-weight: 700; }
+
+.lp-lang-panel { margin-top: 12px; }
+.lp-lang-panel-label {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 0 0 8px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--lp-muted);
+}
+.lp-lang-panel-label svg { width: 16px; height: 16px; flex: none; }
+.lp-lang-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+}
+.mobile-nav .lp-lang-opt {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 44px;
+  padding: 0 8px;
+  border: 1px solid var(--lp-line);
+  border-radius: 10px;
+  background: var(--lp-paper);
+  color: var(--lp-ink);
+  font: inherit;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+.mobile-nav .lp-lang-opt[aria-checked='true'] { background: var(--lp-ink); border-color: var(--lp-ink); color: var(--lp-on-ink); }
+.mobile-nav .lp-lang-opt:focus-visible { outline: 2px solid var(--lp-focus); outline-offset: 2px; }
+/* The panel is fixed under the bar: let it scroll on short screens. */
+.mobile-nav.lp-font { max-height: calc(100dvh - var(--nav-h) - 1px); overflow-y: auto; }
+html[data-lp-theme='dark'] .lp-lang .menu-content { box-shadow: 0 10px 24px rgba(0, 0, 0, 0.5); }
+html[data-lp-theme='dark'] .mobile-nav .lp-lang-opt { background: var(--lp-surface); }
+html[data-lp-theme='dark'] .mobile-nav .lp-lang-opt[aria-checked='true'] { background: var(--lp-ink); }
+
+/* ============================================================
+   PER-LANGUAGE TYPOGRAPHY (html[data-lp-lang] is set by LangProvider)
+   Poppins stays first so Latin (₹, ATS, PDF, digits) is always Poppins;
+   Devanagari is in Poppins itself; Bengali/Tamil/Telugu fall through to the
+   matching Noto Sans, loaded only when that language is chosen.
+   ============================================================ */
+html[data-lp-lang='bn'] { --lp-font: 'Poppins', 'Noto Sans Bengali', system-ui, sans-serif; }
+html[data-lp-lang='ta'] { --lp-font: 'Poppins', 'Noto Sans Tamil', system-ui, sans-serif; }
+html[data-lp-lang='te'] { --lp-font: 'Poppins', 'Noto Sans Telugu', system-ui, sans-serif; }
+
+/* Non-Latin scripts: no uppercase, no tracking, roomier lines. Resume
+   pictures (.lp-resume-frame) are English content and are left alone. */
+html[data-lp-lang]:not([data-lp-lang='en']) :is(.lp-page, nav.lp-font, .mobile-nav.lp-font, footer.lp-font, .skip-link.lp-font) :not(.lp-resume-frame, .lp-resume-frame *),
+html[data-lp-lang]:not([data-lp-lang='en']) :is(nav.lp-font, .mobile-nav.lp-font, footer.lp-font, .skip-link.lp-font, .lp-page) {
+  text-transform: none;
+  letter-spacing: 0;
+}
+html[data-lp-lang]:not([data-lp-lang='en']) :is(.lp-section-sub, .lp-hero2-sub, .lp-fact-text, .lp-how2-card p, .lp-tile p, .lp-pp-col li, .lp-pp-note, .lp-price-list li, .lp-price-note, .lp-faq-a, .lp-atsd-note, .lp-ba-caption, .lp-ba-notes li, .lp-studio-caption, .lp-tpl-best, .lp-final-trust li) {
+  line-height: 1.7;
+}
+html[data-lp-lang]:not([data-lp-lang='en']) :is(.lp-hero2-title, .lp-section-title, .lp-final-title, .lp-tile h3, .lp-how2-card h3, .lp-pp-col h3, .lp-faq-q, .lp-fact-title) {
+  line-height: 1.35;
+}
+html[data-lp-lang]:not([data-lp-lang='en']) .lp-hero2-title { font-size: clamp(1.9rem, 3vw + 0.9rem, 3.2rem); }
+html[data-lp-lang]:not([data-lp-lang='en']) .lp-section-title { font-size: clamp(1.55rem, 2.8vw, 2.1rem); }
+html[data-lp-lang]:not([data-lp-lang='en']) .lp-final-title { font-size: clamp(1.55rem, 3.4vw, 2.3rem); }
+html[data-lp-lang]:not([data-lp-lang='en']) .lp-btn { padding-block: 8px; }
+html[data-lp-lang]:not([data-lp-lang='en']) .lp-btn,
+html[data-lp-lang]:not([data-lp-lang='en']) .btn { white-space: normal; text-align: center; line-height: 1.4; padding-block: 8px; }
+html[data-lp-lang]:not([data-lp-lang='en']) .lp-eyebrow { font-size: 0.85rem; }
