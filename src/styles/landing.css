@@ -87,10 +87,10 @@
 }
 
 .lp-section-title {
-  font-size: clamp(1.9rem, 3.4vw, 2.5rem);
+  font-size: clamp(1.65rem, 3vw, 2.25rem);
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   color: var(--lp-ink);
   max-width: 680px;
 }
@@ -179,10 +179,10 @@ section.lp-hero2 {
 }
 .lp-hero2-text, .lp-hero2-visual { min-width: 0; }
 .lp-hero2-title {
-  font-size: clamp(2.4rem, 5vw + 1rem, 4.25rem);
-  font-weight: 800;
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: clamp(2.05rem, 3.4vw + 1rem, 3.6rem);
+  font-weight: 700;
+  line-height: 1.12;
+  letter-spacing: -0.02em;
   color: var(--lp-ink);
   margin-bottom: var(--lp-s5);
   text-wrap: balance;
@@ -373,6 +373,7 @@ section.lp-hero2 {
 }
 
 @media (max-width: 379px) {
+  .lp-eyebrow { font-size: 0.7rem; letter-spacing: 0.05em; padding: 6px 12px; }
   /* Too narrow for one row of 44px targets: a clean 4 x 2 grid. */
   .lp-studio-accents { grid-template-columns: repeat(4, 44px); margin-inline: 0; }
 }
@@ -584,7 +585,7 @@ section.lp-atsd {
   color: var(--lp-on-night);
   font-family: inherit;
   font-size: 0.78rem;
-  line-height: 1.55;
+  line-height: 1.6;
   white-space: pre-wrap;
   overflow-wrap: anywhere;
 }
@@ -605,7 +606,8 @@ section.lp-atsd {
   /* Desktop: the text card sizes the stage, so nothing scrolls inside it. */
   .lp-atsd-stage { max-width: 720px; }
   .lp-atsd-view:not(.lp-atsd-view--text) { align-self: center; }
-  .lp-parsed { position: static; font-size: 0.8rem; line-height: 1.5; }
+  .lp-atsd-view--text { display: flex; }
+  .lp-parsed { position: static; flex: 1; font-size: 0.8rem; line-height: 1.6; }
 }
 @media (max-width: 480px) {
   .lp-atsd-cta .lp-btn { width: 100%; }
@@ -1070,10 +1072,10 @@ section.lp-final {
   padding: clamp(72px, 10vw, 112px) 0;
 }
 .lp-final-title {
-  font-size: clamp(1.9rem, 4vw, 2.8rem);
+  font-size: clamp(1.65rem, 3.6vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   max-width: 640px;
   margin: 0 auto var(--lp-s6);
 }

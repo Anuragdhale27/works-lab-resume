@@ -7,7 +7,7 @@ export function Layout({ children, variant }: { children: ReactNode; variant?: '
   const fontClass = variant === 'landing' ? 'lp-font' : undefined;
   return (
     <>
-      <SkipLink />
+      <SkipLink fontClass={fontClass} />
       <Nav fontClass={fontClass} />
       <main id="main" tabIndex={-1}>
         {children}
