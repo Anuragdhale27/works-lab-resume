@@ -1410,3 +1410,6 @@ html[data-lp-lang]:not([data-lp-lang='en']) .lp-btn { padding-block: 8px; }
 html[data-lp-lang]:not([data-lp-lang='en']) .lp-btn,
 html[data-lp-lang]:not([data-lp-lang='en']) .btn { white-space: normal; text-align: center; line-height: 1.4; padding-block: 8px; }
 html[data-lp-lang]:not([data-lp-lang='en']) .lp-eyebrow { font-size: 0.85rem; }
+
+/* Centre nav links, tools and CTA on one line (the 44px tool buttons made the row taller than its links). */
+nav.lp-font .nav-links { align-items: center; }
