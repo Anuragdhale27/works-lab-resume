@@ -1,5 +1,7 @@
 import { describe, it, expect } from 'vitest';
-import { HERO, heroSub, heroPrimaryCta, heroFactChips } from './landingContent';
+import {
+  HERO, heroSub, heroPrimaryCta, heroFactChips, factStripItems, BEFORE_AFTER, ATS_DEMO,
+} from './landingContent';
 
 const BANNED = [
   'trusted', 'thousand', 'million', 'users', 'customers', 'rated', 'rating', 'review',
@@ -12,6 +14,9 @@ describe('landingContent', () => {
     heroSub(149),
     heroPrimaryCta(149),
     ...heroFactChips(149, 6),
+    ...factStripItems(149, 6).flatMap((f) => [f.title, f.text]),
+    ...Object.values(BEFORE_AFTER).flat(),
+    ...Object.values(ATS_DEMO).map((v) => (typeof v === 'function' ? v(149) : v)),
   ];
 
   it('has content to check', () => {

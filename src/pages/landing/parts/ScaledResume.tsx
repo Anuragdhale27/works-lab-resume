@@ -1,18 +1,20 @@
 import { useLayoutEffect, useRef, useState } from 'react';
-import type { ComponentType } from 'react';
+import type { ComponentType, ReactNode } from 'react';
 import type { ResumeData } from '../../../types/resume';
 
 const PAGE_WIDTH = 794;
 
 interface ScaledResumeProps {
-  Component: ComponentType<{ data: ResumeData }>;
-  data: ResumeData;
+  Component?: ComponentType<{ data: ResumeData }>;
+  data?: ResumeData;
+  /** Arbitrary 794px-wide content, used instead of Component + data. */
+  children?: ReactNode;
 }
 
 /** Renders a resume template at its real 794px width, scaled to fit the
  * container width. Fixed A4 aspect ratio means switching templates never
  * shifts layout. Purely decorative: not interactive, hidden from AT. */
-export function ScaledResume({ Component, data }: ScaledResumeProps) {
+export function ScaledResume({ Component, data, children }: ScaledResumeProps) {
   const outerRef = useRef<HTMLDivElement>(null);
   const [scale, setScale] = useState(0);
 
@@ -36,7 +38,7 @@ export function ScaledResume({ Component, data }: ScaledResumeProps) {
         className="lp-scaled-inner"
         style={{ width: PAGE_WIDTH, transform: `scale(${scale})`, visibility: scale ? 'visible' : 'hidden' }}
       >
-        <Component data={data} />
+        {children ?? (Component && data ? <Component data={data} /> : null)}
       </div>
     </div>
   );
