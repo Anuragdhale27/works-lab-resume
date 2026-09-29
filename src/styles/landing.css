@@ -23,6 +23,21 @@
   --lp-on-night: #E8EDF2;
   --lp-on-night-muted: #9FB0C0;
   --lp-glow: rgba(14, 122, 90, 0.25);
+  --lp-mint: #8FD9BE;
+
+  /* Gradients: static, emerald only. White on #0E7A5A is 5.3:1 and on
+     #0A6048 is 7.7:1, so the button text stays AA at both stops. (#12906B
+     would only give 4.0:1 with white text, so it is not used.) */
+  --lp-grad-primary: linear-gradient(180deg, #0E7A5A 0%, #0A6048 100%);
+  --lp-grad-primary-hover: linear-gradient(180deg, #0A6048 0%, #084D39 100%);
+  --lp-grad-hero:
+    radial-gradient(ellipse 60% 70% at 78% 45%, rgba(14, 122, 90, 0.2), transparent 72%),
+    radial-gradient(ellipse 45% 55% at 100% 100%, rgba(143, 217, 190, 0.35), transparent 70%),
+    radial-gradient(ellipse 40% 45% at 0% 0%, rgba(143, 217, 190, 0.22), transparent 70%);
+  --lp-grad-glow: radial-gradient(closest-side, rgba(14, 122, 90, 0.42), transparent 100%);
+  --lp-grad-night-corner: radial-gradient(ellipse 60% 70% at 100% 0%, rgba(14, 122, 90, 0.26), transparent 70%);
+  --lp-grad-card-border: linear-gradient(135deg, #3FCB9F 0%, rgba(14, 122, 90, 0.3) 50%, #0E7A5A 100%);
+  --lp-grad-card-glow: radial-gradient(ellipse 55% 60% at 100% 0%, rgba(14, 122, 90, 0.28), transparent 70%);
 
   /* Spacing scale */
   --lp-s1: 4px;
@@ -104,10 +119,11 @@
 }
 .lp-btn--primary {
   background: var(--lp-accent);
+  background-image: var(--lp-grad-primary);
   color: #fff;
   box-shadow: 0 8px 24px -8px var(--lp-glow), 0 2px 6px rgba(15, 17, 21, 0.12);
 }
-.lp-btn--primary:hover { background: var(--lp-accent-dark); }
+.lp-btn--primary:hover { background-color: var(--lp-accent-dark); background-image: var(--lp-grad-primary-hover); }
 .lp-btn--ghost {
   background: transparent;
   color: var(--lp-ink);
@@ -143,7 +159,7 @@
 section.lp-hero2 {
   padding-top: clamp(40px, 6vw, 72px);
   padding-bottom: clamp(48px, 7vw, 88px);
-  background: var(--lp-paper);
+  background: var(--lp-grad-hero), var(--lp-paper);
   overflow: hidden;
 }
 .lp-hero2-inner {
@@ -217,8 +233,8 @@ section.lp-hero2 {
 }
 .lp-studio-glow {
   position: absolute;
-  inset: -12% -18%;
-  background: radial-gradient(closest-side, var(--lp-glow), transparent 100%);
+  inset: -20% -35%;
+  background: var(--lp-grad-glow);
   z-index: -1;
   pointer-events: none;
 }
@@ -276,6 +292,11 @@ section.lp-hero2 {
   justify-content: center;
   gap: 0;
 }
+.lp-studio-accents {
+  display: grid;
+  grid-template-columns: repeat(8, 44px);
+  justify-content: center;
+}
 .lp-swatch {
   width: 44px;
   height: 44px;
@@ -319,6 +340,10 @@ section.lp-hero2 {
   .lp-hero2-actions .lp-btn { width: 100%; }
 }
 @media (max-width: 599px) {
+  .lp-studio-tabs { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 6px; }
+  .lp-studio-tab { padding: 0 6px; line-height: 1.15; }
+  /* 8 x 44px hit areas need 352px: let the row bleed 6px into the gutters. */
+  .lp-studio-accents { margin-inline: -6px; }
   section.lp-hero2 { padding-top: var(--lp-s5); }
   .lp-hero2-inner { gap: var(--lp-s5); }
   .lp-hero2-text .lp-eyebrow { margin-bottom: var(--lp-s3); }
@@ -337,6 +362,11 @@ section.lp-hero2 {
     border-radius: 10px;
   }
   .lp-chips li::before { margin-right: 6px; }
+}
+
+@media (max-width: 379px) {
+  /* Too narrow for one row of 44px targets: a clean 4 x 2 grid. */
+  .lp-studio-accents { grid-template-columns: repeat(4, 44px); margin-inline: 0; }
 }
 
 /* ---- FACT STRIP ---- */
@@ -513,7 +543,7 @@ section.lp-ba { background: var(--lp-paper); }
 
 /* ---- ATS DEMO (dark) ---- */
 section.lp-atsd {
-  background: var(--lp-night);
+  background: var(--lp-grad-night-corner), var(--lp-night);
   color: var(--lp-on-night);
 }
 .lp-atsd-head { max-width: 720px; margin: 0 auto var(--lp-s6); text-align: center; }
@@ -812,9 +842,36 @@ section.lp-tpls { background: var(--lp-paper); border-top: 1px solid var(--lp-li
 .lp-tpls .btn-sm { min-height: 44px; justify-content: center; }
 .lp-tpls .lp-tpl-card { background: var(--lp-surface); }
 .lp-tpls .lp-tpl-preview { aspect-ratio: 794 / 880; }
+.lp-tpls-grid:focus-visible { outline: 3px solid var(--lp-accent-dark); outline-offset: 4px; border-radius: 12px; }
+@media (max-width: 900px) {
+  /* Phone/tablet: one row of cards that scrolls sideways, with the next card peeking. */
+  .lp-tpls-grid {
+    display: flex;
+    gap: var(--lp-s4);
+    overflow-x: auto;
+    overflow-y: hidden;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x mandatory;
+    scroll-padding-inline: 20px;
+    margin-inline: -20px;
+    padding: var(--lp-s2) 20px var(--lp-s4);
+    scrollbar-width: thin;
+    scrollbar-color: var(--lp-line) transparent;
+  }
+  .lp-tpls-grid::-webkit-scrollbar { height: 6px; }
+  .lp-tpls-grid::-webkit-scrollbar-thumb { background: var(--lp-line); border-radius: 3px; }
+  .lp-tpls-grid > .lp-tpl-card {
+    flex: 0 0 min(82%, 340px);
+    scroll-snap-align: start;
+    /* Cards past the edge are clipped, so the scroll-reveal would keep them hidden. */
+    opacity: 1;
+    transform: none;
+  }
+  .lp-tpls-grid > .lp-tpl-card:hover { transform: none; }
+}
 
 /* ---- FEATURES (dark bento) ---- */
-section.lp-feat { background: var(--lp-night); color: var(--lp-on-night); }
+section.lp-feat { background: var(--lp-grad-night-corner), var(--lp-night); color: var(--lp-on-night); }
 .lp-bento {
   display: grid;
   grid-template-columns: repeat(6, 1fr);
@@ -879,7 +936,7 @@ section.lp-feat { background: var(--lp-night); color: var(--lp-on-night); }
 }
 .lp-tile--large .lp-mock { flex: 1; display: flex; }
 .lp-tile--large .lp-mock--page { justify-content: center; }
-.lp-mock--files { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--lp-s3); }
+.lp-mock--files { display: flex; flex-wrap: wrap; justify-content: center; align-items: center; align-content: center; gap: var(--lp-s3); }
 .lp-mock-file {
   display: flex;
   flex-direction: column;
@@ -936,15 +993,44 @@ section.lp-price { background: var(--lp-paper); border-top: 1px solid var(--lp-l
   margin: 0 auto;
   background: var(--lp-night);
   color: var(--lp-on-night);
+  position: relative;
   border-radius: 24px;
   padding: var(--lp-s7);
+  background: var(--lp-grad-card-glow), var(--lp-night);
   box-shadow: 0 30px 60px -30px rgba(11, 15, 20, 0.55);
+}
+/* 1px emerald gradient border (mask keeps only the ring). */
+.lp-price-card::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  padding: 1px;
+  border-radius: inherit;
+  background: var(--lp-grad-card-border);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask: linear-gradient(#000 0 0) content-box exclude, linear-gradient(#000 0 0);
+  pointer-events: none;
 }
 .lp-price-main { display: flex; flex-direction: column; align-items: flex-start; gap: var(--lp-s3); }
 .lp-price-label { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: #8FD9BE; }
-.lp-price-amount { font-family: var(--serif); font-size: clamp(3.4rem, 6vw, 4.6rem); font-weight: 700; line-height: 1; display: flex; align-items: baseline; gap: 2px; }
+.lp-offer-badge {
+  align-self: flex-start;
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--lp-night);
+  background: var(--lp-mint);
+  border-radius: 100px;
+  padding: 4px 12px;
+}
+.lp-price-amount { font-family: var(--serif); font-size: clamp(3.4rem, 6vw, 4.6rem); font-weight: 700; line-height: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--lp-s1) var(--lp-s3); }
+.lp-price-now { display: inline-flex; align-items: baseline; gap: 2px; }
+.lp-price-old { font-family: var(--font); font-size: 1.6rem; font-weight: 600; color: var(--lp-on-night-muted); text-decoration-thickness: 2px; }
 .lp-price-currency { font-size: 0.55em; }
-.lp-price-period { font-family: var(--font); font-size: 1rem; font-weight: 600; color: var(--lp-on-night-muted); margin-left: var(--lp-s3); }
+.lp-price-period { font-family: var(--font); font-size: 1rem; font-weight: 600; color: var(--lp-on-night-muted); }
+.lp-price-save { font-size: 1rem; font-weight: 700; color: var(--lp-mint); }
 .lp-price-note { color: var(--lp-on-night-muted); margin-bottom: var(--lp-s3); }
 .lp-price-list { list-style: none; display: flex; flex-direction: column; gap: var(--lp-s3); align-self: center; }
 .lp-price-list li { position: relative; padding-left: 28px; line-height: 1.5; color: var(--lp-on-night); }
@@ -971,7 +1057,7 @@ section.lp-faq2 { background: var(--lp-surface); border-top: 1px solid var(--lp-
 
 /* ---- FINAL CTA ---- */
 section.lp-final {
-  background: linear-gradient(135deg, #0E7A5A 0%, #0A6048 55%, #06392C 100%);
+  background: linear-gradient(135deg, #0E7A5A 0%, #0A6048 55%, #06392C 100%); /* the existing final-CTA gradient, kept as is */
   color: #fff;
   text-align: center;
   padding: clamp(72px, 10vw, 112px) 0;
@@ -985,56 +1071,34 @@ section.lp-final {
   max-width: 640px;
   margin: 0 auto var(--lp-s6);
 }
+.lp-final-offer { margin: calc(-1 * var(--lp-s3)) 0 var(--lp-s5); font-size: 1.05rem; font-weight: 600; color: #fff; }
+.lp-final-offer strong { font-weight: 800; }
+.lp-final-offer s { color: #F1FAF6; text-decoration-thickness: 2px; margin-left: var(--lp-s1); }
 .lp-btn--light { background: #fff; color: var(--lp-accent-dark); box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.4); }
 .lp-btn--light:hover { background: var(--lp-accent-tint); }
 .lp-final .lp-btn:focus-visible { outline-color: #fff; }
 .lp-final-trust {
   list-style: none;
   display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: var(--lp-s2) var(--lp-s5);
+  flex-direction: column;
+  align-items: center;
+  gap: var(--lp-s2);
   margin-top: var(--lp-s5);
+  padding: 0;
   font-size: 0.95rem;
   color: rgba(255, 255, 255, 0.92);
 }
-.lp-final-trust li + li::before { content: '·'; font-weight: 700; margin-right: var(--lp-s5); }
-
-/* ---- STICKY CTA (mobile only) ---- */
-.lp-sticky { display: none; }
-@media (max-width: 899px) {
-  .lp-sticky {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    z-index: 90;
-    min-height: 56px;
-    box-sizing: content-box;
-    padding: 8px var(--lp-s4) calc(8px + env(safe-area-inset-bottom));
-    background: rgba(251, 250, 247, 0.96);
-    border-top: 1px solid var(--lp-line);
-    box-shadow: 0 -8px 24px -12px rgba(15, 17, 21, 0.25);
-    transform: translateY(100%);
-    visibility: hidden;
-  }
-  .lp-sticky[data-visible='true'] { transform: none; visibility: visible; }
-  .lp-sticky .lp-btn { width: 100%; }
-  html.lp-has-sticky { scroll-padding-bottom: calc(72px + env(safe-area-inset-bottom)); }
-}
-@media (max-width: 899px) and (prefers-reduced-motion: no-preference) {
-  .lp-sticky { transition: transform 0.2s ease, visibility 0s linear 0.2s; }
-  .lp-sticky[data-visible='true'] { transition: transform 0.2s ease, visibility 0s; }
+@media (min-width: 600px) {
+  /* One line with separators only between items (never at a line start). */
+  .lp-final-trust { flex-direction: row; justify-content: center; gap: 0; }
+  .lp-final-trust li + li::before { content: '·'; font-weight: 700; margin: 0 var(--lp-s4); }
 }
 
 /* ============================================================
    RESPONSIVE
    ============================================================ */
 @media (max-width: 1024px) {
-  .lp-tpls-grid { grid-template-columns: repeat(2, 1fr); }
+  .lp-tpls-grid { grid-template-columns: repeat(2, 1fr); } /* desktop grid only; <=900px is the carousel */
   .lp-bento { grid-template-columns: repeat(2, 1fr); }
   .lp-tile, .lp-tile--large { grid-column: span 1; }
   .lp-tile--large { padding: var(--lp-s5); }
@@ -1049,7 +1113,6 @@ section.lp-final {
   .lp-price-card { grid-template-columns: 1fr; }
 }
 @media (max-width: 640px) {
-  .lp-tpls-grid { grid-template-columns: 1fr; }
   .lp-bento { grid-template-columns: 1fr; }
   .lp-tile--large { grid-column: span 1; padding: var(--lp-s5); }
   .lp-price-card { padding: var(--lp-s5); border-radius: 20px; }
