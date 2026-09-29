@@ -10,6 +10,20 @@ export const HERO = {
   secondaryHref: '#templates',
 } as const;
 
+// ---- Launch price (the only place "offer"/"save" copy may live) ----
+// LIST_PRICE is the regular price; CONFIG.PRODUCT_PRICE is the current launch
+// price. No end date, countdown or percentage: just the arithmetic.
+export const LIST_PRICE = 300;
+
+export const OFFER = {
+  label: 'Launch offer',
+  original: (): string => `₹${LIST_PRICE}`,
+  current: (price: number | string): string => `₹${price}`,
+  savings: (price: number | string): string => `You save ₹${LIST_PRICE - Number(price)}`,
+  srPrice: (price: number | string): string => `Original price ₹${LIST_PRICE}, now ₹${price}`,
+  chip: (price: number | string): string => `₹${price} launch offer`,
+};
+
 export const heroSub = (price: number | string): string =>
   `An ATS-friendly resume builder for Indian job seekers. ₹${price} once. No subscription.`;
 
@@ -18,7 +32,7 @@ export const heroPrimaryCta = (price: number | string): string => `Build my resu
 export const heroFactChips = (price: number | string, templateCount: number): string[] => [
   'Real-text PDF',
   'Data stays in your browser',
-  `One-time ₹${price}`,
+  OFFER.chip(price),
   `${templateCount} templates`,
 ];
 
@@ -90,7 +104,7 @@ export const TEMPLATES_SECTION = {
   eyebrow: 'Templates',
   title: (n: number): string => `${n} templates. Pick the one that fits.`,
   lead:
-    'Single-column layouts are the safest choice for applicant tracking systems. The two-column ones keep your main content first.',
+    'Single-column layouts read cleanly in applicant tracking systems. The two-column ones keep your main content first.',
 };
 
 // ---- Features (dark bento) ----
@@ -183,16 +197,11 @@ export const FAQ_SECTION = {
 // ---- Final CTA ----
 export const FINAL_CTA = {
   title: 'Your next application deserves a cleaner resume.',
+  offerLabel: `${OFFER.label}:`,
   cta: (price: number | string): string => `Build my resume — ₹${price}`,
   trust: (price: number | string): string[] => [
     `One-time ₹${price}`,
     'No subscription',
     'Data stays on your device',
   ],
-};
-
-// ---- Sticky mobile CTA ----
-export const STICKY = {
-  label: 'Get started',
-  cta: (price: number | string): string => `Build my resume — ₹${price}`,
 };

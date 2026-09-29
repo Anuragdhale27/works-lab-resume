@@ -1,7 +1,7 @@
 import { describe, it, expect } from 'vitest';
 import {
   HERO, heroSub, heroPrimaryCta, heroFactChips, factStripItems, BEFORE_AFTER, ATS_DEMO,
-  HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA, STICKY,
+  HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA, LIST_PRICE, OFFER,
 } from './landingContent';
 import { landingResumeData } from './landingData';
 
@@ -32,7 +32,7 @@ describe('landingContent', () => {
     ...factStripItems(149, 6).flatMap((f) => [f.title, f.text]),
     ...Object.values(BEFORE_AFTER).flat(),
     ...Object.values(ATS_DEMO).map((v) => (typeof v === 'function' ? v(149) : v)),
-    ...[HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA, STICKY].flatMap(flatten),
+    ...[HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA].flatMap(flatten),
   ];
 
   it('has content to check', () => {
@@ -58,6 +58,53 @@ describe('landingContent', () => {
   it('has six feature tiles and two large tiles', () => {
     expect(FEATURES.small).toHaveLength(6);
     expect(FEATURES.large).toHaveLength(2);
+  });
+});
+
+describe('launch price copy', () => {
+  const offerStrings = [
+    OFFER.label, OFFER.original(), OFFER.current(149), OFFER.savings(149), OFFER.srPrice(149), OFFER.chip(149),
+  ];
+  const all = [
+    ...Object.values(HERO),
+    heroSub(149),
+    heroPrimaryCta(149),
+    ...heroFactChips(149, 6),
+    ...factStripItems(149, 6).flatMap((f) => [f.title, f.text]),
+    ...Object.values(BEFORE_AFTER).flat(),
+    ...Object.values(ATS_DEMO).map((v) => (typeof v === 'function' ? v(149) : v)),
+    ...[HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA].flatMap(flatten),
+    ...offerStrings,
+  ];
+
+  it('lists a higher regular price than the current price', () => {
+    expect(LIST_PRICE).toBeGreaterThan(149);
+  });
+
+  it('computes the saving as the plain difference', () => {
+    expect(OFFER.savings(149)).toBe(`You save ₹${LIST_PRICE - 149}`);
+    expect(OFFER.savings(149)).toBe('You save ₹151');
+    expect(OFFER.original()).toBe('₹300');
+    expect(OFFER.srPrice(149)).toBe('Original price ₹300, now ₹149');
+  });
+
+  it('uses "offer" and "save" only in the price helpers', () => {
+    const re = /\boffer|you save|savings/i;
+    const outside = all.filter((s) => !offerStrings.includes(s) && s !== FINAL_CTA.offerLabel);
+    for (const s of outside) expect(re.test(s), `"${s}" is outside the price helpers`).toBe(false);
+    expect(FINAL_CTA.offerLabel).toBe(`${OFFER.label}:`);
+    expect(heroFactChips(149, 6)).toContain(OFFER.chip(149));
+  });
+
+  it('makes no percentage, urgency or scarcity claims', () => {
+    const urgent = /%|percent|limited|hurry|\bends?\b|\bonly\b|last chance|countdown|left|expires|deadline|today only/i;
+    for (const s of all) expect(urgent.test(s), `"${s}" reads as an urgency claim`).toBe(false);
+  });
+
+  it('passes the banned-word audit', () => {
+    for (const s of offerStrings) {
+      BANNED_RE.forEach((re, i) => expect(re.test(s), `"${s}" contains "${BANNED[i]}"`).toBe(false));
+    }
   });
 });
 
