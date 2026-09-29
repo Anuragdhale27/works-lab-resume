@@ -1,96 +1,27 @@
 import { Link } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { TemplateCard } from '../components/TemplateCard';
-import { TemplatePreview } from '../components/TemplatePreview';
 import { FaqAccordion } from '../components/FaqAccordion';
 import { TEMPLATE_KEYS, TEMPLATES } from '../templates';
 import { CONFIG, goToPayment } from '../lib/config';
-import { sampleResumeData } from '../lib/sampleData';
 import { Hero } from './landing/sections/Hero';
+import { FactStrip } from './landing/sections/FactStrip';
+import { BeforeAfter } from './landing/sections/BeforeAfter';
+import { AtsDemo } from './landing/sections/AtsDemo';
 import { useFadeIn } from '../hooks/useFadeIn';
 import '../styles/landing.css';
 
 export function Landing() {
   useFadeIn();
 
-  const firstExperience = sampleResumeData.experience[0];
-  const firstEducation = sampleResumeData.education[0];
-
   return (
     <Layout>
       <div className="lp-page">
         <Hero />
 
-        {/* PROOF STRIP */}
-        <section className="lp-proof">
-          <div className="container">
-            <ul className="lp-proof-list">
-              <li className="fade-in">{TEMPLATE_KEYS.length} ATS-safe templates</li>
-              <li className="fade-in">Real text PDF — not an image</li>
-              <li className="fade-in">₹{CONFIG.PRODUCT_PRICE} once. No subscription.</li>
-              <li className="fade-in">Your data never leaves your browser</li>
-            </ul>
-          </div>
-        </section>
-
-        {/* THE DIFFERENTIATOR: WHAT AN ATS ACTUALLY READS */}
-        <section className="lp-ats">
-          <div className="container">
-            <div className="lp-ats-head">
-              <span className="lp-eyebrow fade-in">What an ATS actually reads</span>
-              <h2 className="lp-section-title fade-in">
-                Your Works Lab PDF isn't a picture of a resume. It's real text.
-              </h2>
-              <p className="lp-section-sub fade-in">
-                Export uses your browser's own print pipeline, so every character — your name, dates, bullet points
-                — stays selectable, searchable text in the PDF. That's exactly what an applicant tracking system
-                parses.
-              </p>
-            </div>
-
-            <div className="lp-ats-grid">
-              <div className="lp-ats-resume fade-in">
-                <TemplatePreview template={TEMPLATES.modern} />
-              </div>
-              <div className="lp-ats-arrow fade-in">→</div>
-              <div className="lp-ats-parsed fade-in">
-                <div className="lp-ats-parsed-label">Parsed by an ATS</div>
-                <dl className="lp-ats-fields">
-                  <div>
-                    <dt>Name</dt>
-                    <dd>{sampleResumeData.personal.name}</dd>
-                  </div>
-                  <div>
-                    <dt>Email</dt>
-                    <dd>{sampleResumeData.personal.email}</dd>
-                  </div>
-                  <div>
-                    <dt>Phone</dt>
-                    <dd>{sampleResumeData.personal.phone}</dd>
-                  </div>
-                  <div>
-                    <dt>Experience</dt>
-                    <dd>
-                      {firstExperience.title} · {firstExperience.company}
-                    </dd>
-                  </div>
-                  <div>
-                    <dt>Education</dt>
-                    <dd>{firstEducation.degree}</dd>
-                  </div>
-                  <div>
-                    <dt>Skills</dt>
-                    <dd>{sampleResumeData.skills.slice(0, 5).join(', ')}</dd>
-                  </div>
-                </dl>
-              </div>
-            </div>
-
-            <p className="lp-ats-note fade-in">
-              See for yourself — open a resume you've downloaded and try selecting the text.
-            </p>
-          </div>
-        </section>
+        <FactStrip />
+        <BeforeAfter />
+        <AtsDemo />
 
         {/* HOW IT WORKS */}
         <section className="lp-how" id="how-it-works">
