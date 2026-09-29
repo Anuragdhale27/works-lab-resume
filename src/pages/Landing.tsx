@@ -6,7 +6,7 @@ import { FaqAccordion } from '../components/FaqAccordion';
 import { TEMPLATE_KEYS, TEMPLATES } from '../templates';
 import { CONFIG, goToPayment } from '../lib/config';
 import { sampleResumeData } from '../lib/sampleData';
-import sampleAvatar from '../assets/sample-avatar.png';
+import { Hero } from './landing/sections/Hero';
 import { useFadeIn } from '../hooks/useFadeIn';
 import '../styles/landing.css';
 
@@ -19,47 +19,7 @@ export function Landing() {
   return (
     <Layout>
       <div className="lp-page">
-        {/* HERO */}
-        <section className="lp-hero">
-          <div className="container lp-hero-inner">
-            <div className="lp-hero-text">
-              <span className="lp-eyebrow fade-in">Built for the Indian job market</span>
-              <h1 className="lp-hero-title fade-in">A resume that gets past the bots and into a human's hands.</h1>
-              <p className="lp-hero-sub fade-in">
-                A real, <strong>selectable-text PDF</strong> that applicant tracking systems can actually read.{' '}
-                <strong>₹{CONFIG.PRODUCT_PRICE} once</strong> — no subscription. Your details stay{' '}
-                <strong>on your device</strong> — nothing is ever sent to a server.
-              </p>
-              <div className="lp-hero-actions fade-in">
-                <button className="btn btn-primary btn-lg" onClick={() => goToPayment('modern')}>
-                  Build my resume — ₹{CONFIG.PRODUCT_PRICE}
-                </button>
-                <a href="#templates" className="btn btn-outline btn-lg">
-                  See templates
-                </a>
-              </div>
-              <p className="lp-hero-trust fade-in">
-                One-time payment
-                <span className="lp-trust-dot"></span>
-                Instant access
-                <span className="lp-trust-dot"></span>
-                No subscription
-              </p>
-            </div>
-
-            <div className="lp-hero-visual fade-in" aria-hidden="true">
-              <div className="lp-preview-stack">
-                <div className="lp-preview-card lp-preview-card--back">
-                  <TemplatePreview template={TEMPLATES.classic} />
-                </div>
-                <div className="lp-preview-card lp-preview-card--front">
-                  <TemplatePreview template={TEMPLATES.modern} photo={sampleAvatar} />
-                </div>
-                <span className="lp-preview-tag">Real, ATS-readable PDF</span>
-              </div>
-            </div>
-          </div>
-        </section>
+        <Hero />
 
         {/* PROOF STRIP */}
         <section className="lp-proof">
