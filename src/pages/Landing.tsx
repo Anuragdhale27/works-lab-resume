@@ -10,7 +10,6 @@ import { PrivacyPrice } from './landing/sections/PrivacyPrice';
 import { Pricing } from './landing/sections/Pricing';
 import { Faq } from './landing/sections/Faq';
 import { FinalCta } from './landing/sections/FinalCta';
-import { StickyCta } from './landing/parts/StickyCta';
 import { useFadeIn } from '../hooks/useFadeIn';
 import '../styles/landing.css';
 
@@ -31,7 +30,6 @@ export function Landing() {
         <Pricing />
         <Faq />
         <FinalCta />
-        <StickyCta />
       </div>
     </Layout>
   );

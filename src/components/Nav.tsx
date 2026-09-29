@@ -40,17 +40,27 @@ export function Nav() {
                 </a>
               </li>
             </ul>
-            <button
-              className="nav-menu-btn"
-              aria-label="Menu"
-              aria-expanded={open}
-              aria-controls="mobileNav"
-              onClick={() => setOpen((o) => !o)}
-            >
-              <span></span>
-              <span></span>
-              <span></span>
-            </button>
+            <div className="nav-mobile-actions">
+              <button
+                type="button"
+                className="nav-cta nav-cta-mobile"
+                data-cta="nav"
+                onClick={() => goToPayment('modern')}
+              >
+                Build ₹{CONFIG.PRODUCT_PRICE}
+              </button>
+              <button
+                className="nav-menu-btn"
+                aria-label="Menu"
+                aria-expanded={open}
+                aria-controls="mobileNav"
+                onClick={() => setOpen((o) => !o)}
+              >
+                <span></span>
+                <span></span>
+                <span></span>
+              </button>
+            </div>
           </div>
         </div>
       </nav>
