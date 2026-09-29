@@ -2,12 +2,12 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CONFIG, goToPayment } from '../lib/config';
 
-export function Nav() {
+export function Nav({ fontClass }: { fontClass?: string } = {}) {
   const [open, setOpen] = useState(false);
 
   return (
     <>
-      <nav>
+      <nav className={fontClass}>
         <div className="container">
           <div className="nav-inner">
             <Link to="/" className="nav-logo">
@@ -65,7 +65,7 @@ export function Nav() {
         </div>
       </nav>
 
-      <div className={`mobile-nav${open ? ' open' : ''}`} id="mobileNav">
+      <div className={`mobile-nav${open ? ' open' : ''}${fontClass ? ` ${fontClass}` : ''}`} id="mobileNav">
         <a href="/#templates" onClick={() => setOpen(false)}>Templates</a>
         <a href="/#how-it-works" onClick={() => setOpen(false)}>How it works</a>
         <a href="/#pricing" onClick={() => setOpen(false)}>Pricing</a>

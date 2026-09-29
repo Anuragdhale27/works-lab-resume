@@ -11,13 +11,14 @@ import { Pricing } from './landing/sections/Pricing';
 import { Faq } from './landing/sections/Faq';
 import { FinalCta } from './landing/sections/FinalCta';
 import { useFadeIn } from '../hooks/useFadeIn';
+import './landing/fonts';
 import '../styles/landing.css';
 
 export function Landing() {
   useFadeIn();
 
   return (
-    <Layout>
+    <Layout variant="landing">
       <div className="lp-page">
         <Hero />
         <FactStrip />

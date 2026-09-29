@@ -33,7 +33,7 @@ export function ScaledResume({ Component, data, children }: ScaledResumeProps) {
   }, []);
 
   return (
-    <div ref={outerRef} className="lp-scaled" aria-hidden="true" inert>
+    <div ref={outerRef} className="lp-scaled lp-resume-frame" aria-hidden="true" inert>
       <div
         className="lp-scaled-inner"
         style={{ width: PAGE_WIDTH, transform: `scale(${scale})`, visibility: scale ? 'visible' : 'hidden' }}

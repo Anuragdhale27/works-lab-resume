@@ -19,7 +19,7 @@ export function MessyResume() {
   for (let i = 0; i < d.skills.length; i += 2) skillRows.push(d.skills.slice(i, i + 2));
 
   return (
-    <div className="lp-messy">
+    <div className="lp-messy lp-resume-frame">
       <div className="lp-messy-top">
         <div className="lp-messy-logo" />
         <div className="lp-messy-name">

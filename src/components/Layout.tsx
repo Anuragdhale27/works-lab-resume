@@ -3,15 +3,16 @@ import { SkipLink } from './SkipLink';
 import { Nav } from './Nav';
 import { Footer } from './Footer';
 
-export function Layout({ children }: { children: ReactNode }) {
+export function Layout({ children, variant }: { children: ReactNode; variant?: 'landing' }) {
+  const fontClass = variant === 'landing' ? 'lp-font' : undefined;
   return (
     <>
       <SkipLink />
-      <Nav />
+      <Nav fontClass={fontClass} />
       <main id="main" tabIndex={-1}>
         {children}
       </main>
-      <Footer />
+      <Footer fontClass={fontClass} />
     </>
   );
 }

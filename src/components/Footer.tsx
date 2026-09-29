@@ -1,8 +1,8 @@
 import { Link } from 'react-router-dom';
 
-export function Footer() {
+export function Footer({ fontClass }: { fontClass?: string } = {}) {
   return (
-    <footer>
+    <footer className={fontClass}>
       <div className="container">
         <div className="footer-inner">
           <div>

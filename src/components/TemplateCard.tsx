@@ -6,7 +6,7 @@ import { CONFIG, goToPayment } from '../lib/config';
 export function TemplateCard({ template }: { template: TemplateMeta }) {
   return (
     <div className="lp-tpl-card fade-in">
-      <Link to={`/template/${template.key}`} className="lp-tpl-preview" aria-label={`Preview ${template.name}`}>
+      <Link to={`/template/${template.key}`} className="lp-tpl-preview lp-resume-frame" aria-label={`Preview ${template.name}`}>
         <TemplatePreview template={template} />
       </Link>
       <div className="lp-tpl-body">

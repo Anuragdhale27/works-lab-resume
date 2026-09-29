@@ -49,12 +49,22 @@
   --lp-s7: 48px;
   --lp-s8: 72px;
   --lp-s9: 112px;
+
+  --lp-font: 'Poppins', system-ui, -apple-system, 'Segoe UI', sans-serif;
 }
 
 .lp-page {
+  font-family: var(--lp-font);
   background: var(--lp-paper);
   color: var(--lp-ink);
 }
+
+/* Nav and Footer on the landing route only (Layout variant="landing"). */
+.lp-font { font-family: var(--lp-font); }
+
+/* Resume pictures keep the app font (templates set their own where needed),
+   so they never inherit Poppins from the landing page. */
+.lp-resume-frame { }
 
 .lp-page section {
   padding: clamp(56px, 8vw, 96px) 0;
@@ -77,7 +87,6 @@
 }
 
 .lp-section-title {
-  font-family: var(--serif);
   font-size: clamp(1.9rem, 3.4vw, 2.5rem);
   font-weight: 700;
   line-height: 1.2;
@@ -170,7 +179,6 @@ section.lp-hero2 {
 }
 .lp-hero2-text, .lp-hero2-visual { min-width: 0; }
 .lp-hero2-title {
-  font-family: var(--font);
   font-size: clamp(2.4rem, 5vw + 1rem, 4.25rem);
   font-weight: 800;
   line-height: 1.05;
@@ -574,7 +582,7 @@ section.lp-atsd {
   border: 1px solid var(--lp-night-line);
   border-radius: 8px;
   color: var(--lp-on-night);
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-family: inherit;
   font-size: 0.78rem;
   line-height: 1.55;
   white-space: pre-wrap;
@@ -823,7 +831,6 @@ section.lp-how2 { background: var(--lp-surface); border-top: 1px solid var(--lp-
 }
 .lp-how2-icon svg { width: 28px; height: 28px; }
 .lp-how2-num {
-  font-family: var(--serif);
   font-size: 2.6rem;
   font-weight: 700;
   line-height: 1;
@@ -966,7 +973,7 @@ section.lp-pp { background: var(--lp-surface); border-top: 1px solid var(--lp-li
   flex-direction: column;
   align-items: flex-start;
 }
-.lp-pp-col h3 { font-family: var(--serif); font-size: 1.35rem; font-weight: 700; color: var(--lp-ink); margin-bottom: var(--lp-s4); }
+.lp-pp-col h3 { font-size: 1.35rem; font-weight: 700; color: var(--lp-ink); margin-bottom: var(--lp-s4); }
 .lp-pp-col ul { list-style: none; display: flex; flex-direction: column; gap: var(--lp-s3); margin-bottom: var(--lp-s3); }
 .lp-pp-col li { position: relative; padding-left: 26px; color: var(--lp-ink); line-height: 1.55; }
 .lp-pp-col li::before {
@@ -1025,11 +1032,11 @@ section.lp-price { background: var(--lp-paper); border-top: 1px solid var(--lp-l
   border-radius: 100px;
   padding: 4px 12px;
 }
-.lp-price-amount { font-family: var(--serif); font-size: clamp(3.4rem, 6vw, 4.6rem); font-weight: 700; line-height: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--lp-s1) var(--lp-s3); }
+.lp-price-amount { font-size: clamp(3.4rem, 6vw, 4.6rem); font-weight: 700; line-height: 1; display: flex; flex-wrap: wrap; align-items: baseline; gap: var(--lp-s1) var(--lp-s3); }
 .lp-price-now { display: inline-flex; align-items: baseline; gap: 2px; }
-.lp-price-old { font-family: var(--font); font-size: 1.6rem; font-weight: 600; color: var(--lp-on-night-muted); text-decoration-thickness: 2px; }
+.lp-price-old { font-size: 1.6rem; font-weight: 600; color: var(--lp-on-night-muted); text-decoration-thickness: 2px; }
 .lp-price-currency { font-size: 0.55em; }
-.lp-price-period { font-family: var(--font); font-size: 1rem; font-weight: 600; color: var(--lp-on-night-muted); }
+.lp-price-period { font-size: 1rem; font-weight: 600; color: var(--lp-on-night-muted); }
 .lp-price-save { font-size: 1rem; font-weight: 700; color: var(--lp-mint); }
 .lp-price-note { color: var(--lp-on-night-muted); margin-bottom: var(--lp-s3); }
 .lp-price-list { list-style: none; display: flex; flex-direction: column; gap: var(--lp-s3); align-self: center; }
@@ -1063,7 +1070,6 @@ section.lp-final {
   padding: clamp(72px, 10vw, 112px) 0;
 }
 .lp-final-title {
-  font-family: var(--serif);
   font-size: clamp(1.9rem, 4vw, 2.8rem);
   font-weight: 700;
   line-height: 1.2;
