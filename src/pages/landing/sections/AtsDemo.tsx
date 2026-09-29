@@ -1,18 +1,12 @@
 import { useState } from 'react';
 import { CONFIG } from '../../../lib/config';
 import { TEMPLATES } from '../../../templates';
-import { sampleResumeData } from '../../../lib/sampleData';
-import sampleAvatar from '../../../assets/sample-avatar.png';
+import { landingResumeData } from '../landingData';
 import { ATS_DEMO as C } from '../landingContent';
 import { CtaButton } from '../parts/CtaButton';
 import { ParsedText } from '../parts/ParsedText';
 import { ScaledResume } from '../parts/ScaledResume';
 import { SegmentedToggle } from '../parts/SegmentedToggle';
-
-const resumeData = {
-  ...sampleResumeData,
-  personal: { ...sampleResumeData.personal, photo: sampleAvatar },
-};
 
 export function AtsDemo() {
   const [view, setView] = useState<'resume' | 'text'>('resume');
@@ -43,10 +37,10 @@ export function AtsDemo() {
 
           <div className="lp-atsd-stage">
             <div className="lp-atsd-view" id="lp-atsd-panel-resume" role="tabpanel" aria-labelledby="lp-atsd-resume" hidden={view !== 'resume'}>
-              <ScaledResume Component={TEMPLATES.modern.Component} data={resumeData} />
+              <ScaledResume Component={TEMPLATES.modern.Component} data={landingResumeData} />
             </div>
             <div className="lp-atsd-view lp-atsd-view--text" id="lp-atsd-panel-text" role="tabpanel" aria-labelledby="lp-atsd-text" hidden={view !== 'text'}>
-              <ParsedText data={sampleResumeData} label={C.textRegionLabel} />
+              <ParsedText data={landingResumeData} label={C.textRegionLabel} />
             </div>
           </div>
 

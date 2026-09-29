@@ -1,4 +1,4 @@
-import { sampleResumeData as d } from '../../../lib/sampleData';
+import { landingResumeData as d } from '../landingData';
 import { parseDescription } from '../../../lib/parseDescription';
 
 /** Deliberately poorly structured resume built from the same sample data.
@@ -13,7 +13,6 @@ export function MessyResume() {
   const edu = d.education[0];
   const proj = d.projects[0];
   const cert = d.certifications[0];
-  const award = d.awards[0];
   const p = d.personal;
   const marks = ['➢', '»', '✦', '❖'];
   const skillRows: string[][] = [];
@@ -87,12 +86,9 @@ export function MessyResume() {
       </p>
       <p className="lp-messy-p lp-messy-wall">{bulletsOf(proj.description).join('. ')}.</p>
 
-      <div className="lp-messy-h">CERTIFICATIONS &amp; AWARDS</div>
+      <div className="lp-messy-h">CERTIFICATIONS</div>
       <p className="lp-messy-b">
         ➢ {cert.name}, {cert.org} — Dec {cert.year}
-      </p>
-      <p className="lp-messy-b">
-        ➢ {award.title}, {award.issuer} ({award.year})
       </p>
       <p className="lp-messy-p">
         Languages: {d.languages.map((l) => `${l.lang} (${l.level})`).join(' / ')}

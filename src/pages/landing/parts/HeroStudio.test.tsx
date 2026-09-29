@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from '@testing-library/react';
 import { HeroStudio } from './HeroStudio';
 import { ScaledResume } from './ScaledResume';
 import { TEMPLATES } from '../../../templates';
-import { sampleResumeData } from '../../../lib/sampleData';
+import { landingResumeData } from '../landingData';
 
 const root = (c: HTMLElement) => c.querySelector('.lp-scaled-inner > div') as HTMLElement;
 
@@ -57,7 +57,7 @@ describe('HeroStudio', () => {
 
 describe('ScaledResume', () => {
   it('renders its template content and is hidden from AT', () => {
-    const { container } = render(<ScaledResume Component={TEMPLATES.modern.Component} data={sampleResumeData} />);
+    const { container } = render(<ScaledResume Component={TEMPLATES.modern.Component} data={landingResumeData} />);
     expect(container.textContent).toContain('Rahul Sharma');
     expect(container.firstElementChild?.getAttribute('aria-hidden')).toBe('true');
   });

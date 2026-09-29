@@ -1,16 +1,10 @@
 import { useState } from 'react';
 import { TEMPLATES } from '../../../templates';
-import { sampleResumeData } from '../../../lib/sampleData';
-import sampleAvatar from '../../../assets/sample-avatar.png';
+import { landingResumeData } from '../landingData';
 import { BEFORE_AFTER as C } from '../landingContent';
 import { MessyResume } from '../parts/MessyResume';
 import { ScaledResume } from '../parts/ScaledResume';
 import { SegmentedToggle } from '../parts/SegmentedToggle';
-
-const afterData = {
-  ...sampleResumeData,
-  personal: { ...sampleResumeData.personal, photo: sampleAvatar },
-};
 
 export function BeforeAfter() {
   const [view, setView] = useState<'before' | 'after'>('before');
@@ -64,7 +58,7 @@ export function BeforeAfter() {
 
             <div className="lp-ba-panel" id="lp-ba-panel-after" role="group" aria-labelledby="lp-ba-after-label" data-active={view === 'after'}>
               <p className="lp-ba-label" id="lp-ba-after-label">{C.afterLabel}</p>
-              <ScaledResume Component={TEMPLATES.modern.Component} data={afterData} />
+              <ScaledResume Component={TEMPLATES.modern.Component} data={landingResumeData} />
               <ul className="lp-ba-notes lp-ba-notes--good">
                 {C.afterNotes.map((n) => (
                   <li key={n}>

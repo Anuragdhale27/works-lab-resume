@@ -3,8 +3,7 @@ import type { KeyboardEvent } from 'react';
 import { TEMPLATES, TEMPLATE_KEYS } from '../../../templates';
 import type { TemplateKey } from '../../../types/resume';
 import { ACCENT_PRESETS } from '../../../lib/accentPresets';
-import { sampleResumeData } from '../../../lib/sampleData';
-import sampleAvatar from '../../../assets/sample-avatar.png';
+import { landingResumeData } from '../landingData';
 import { HERO } from '../landingContent';
 import { ScaledResume } from './ScaledResume';
 
@@ -14,8 +13,7 @@ export function HeroStudio() {
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
 
   const data = {
-    ...sampleResumeData,
-    personal: { ...sampleResumeData.personal, photo: sampleAvatar },
+    ...landingResumeData,
     accent,
   };
   const accentName = ACCENT_PRESETS.find((p) => p.color === accent)?.name ?? 'Default';
