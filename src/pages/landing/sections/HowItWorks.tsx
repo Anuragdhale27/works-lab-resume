@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
 import { CONFIG } from '../../../lib/config';
-import { HOW as C } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
+import { HOW_ICONS, priceVars } from '../landingContent';
 import type { HowIcon } from '../landingContent';
 import { CtaButton } from '../parts/CtaButton';
 import { SectionHeader } from '../parts/SectionHeader';
@@ -29,17 +31,19 @@ const ICONS: Record<HowIcon, ReactNode> = {
 };
 
 export function HowItWorks() {
+  const { messages: m } = useLang();
+  const C = m.how;
   return (
     <section className="lp-how2" id="how-it-works" data-section="how-it-works">
       <div className="container">
         <SectionHeader eyebrow={C.eyebrow} title={C.title} />
         <ol className="lp-how2-list">
           {C.steps.map((s, i) => (
-            <li key={s.title} className="lp-how2-card fade-in">
+            <li key={HOW_ICONS[i]} className="lp-how2-card fade-in">
               <div className="lp-how2-top">
                 <span className="lp-how2-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                    {ICONS[s.icon]}
+                    {ICONS[HOW_ICONS[i]]}
                   </svg>
                 </span>
                 <span className="lp-how2-num" aria-hidden="true">{i + 1}</span>
@@ -50,7 +54,7 @@ export function HowItWorks() {
           ))}
         </ol>
         <div className="lp-center fade-in">
-          <CtaButton dataCta="how">{C.cta(CONFIG.PRODUCT_PRICE)}</CtaButton>
+          <CtaButton dataCta="how">{format(C.cta, priceVars(CONFIG.PRODUCT_PRICE))}</CtaButton>
         </div>
       </div>
     </section>

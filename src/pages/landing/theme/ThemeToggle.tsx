@@ -1,14 +1,9 @@
 import { useRef } from 'react';
 import type { KeyboardEvent, ReactElement } from 'react';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
 import { THEME_ORDER, useThemePref } from './themeStore';
 import type { ThemePref } from './themeStore';
-
-const LABEL: Record<ThemePref, string> = { system: 'System', light: 'Light', dark: 'Dark' };
-const LONG_LABEL: Record<ThemePref, string> = {
-  system: 'System (follows your device)',
-  light: 'Light',
-  dark: 'Dark',
-};
 
 function Icon({ pref }: { pref: ThemePref }): ReactElement {
   const common = {
@@ -47,10 +42,13 @@ function Icon({ pref }: { pref: ThemePref }): ReactElement {
 export function ThemeToggle({ variant }: { variant: 'compact' | 'segmented' }) {
   const [pref, setPref] = useThemePref();
   const refs = useRef<Record<string, HTMLButtonElement | null>>({});
+  const { messages: m } = useLang();
+  const LABEL: Record<ThemePref, string> = { system: m.theme.system, light: m.theme.light, dark: m.theme.dark };
+  const LONG_LABEL: Record<ThemePref, string> = { system: m.theme.systemLong, light: m.theme.light, dark: m.theme.dark };
 
   if (variant === 'compact') {
     const next = THEME_ORDER[(THEME_ORDER.indexOf(pref) + 1) % THEME_ORDER.length];
-    const label = `Theme: ${LONG_LABEL[pref]}. Switch to ${LONG_LABEL[next]}`;
+    const label = format(m.theme.toggle, { current: LONG_LABEL[pref], next: LONG_LABEL[next] });
     return (
       <button
         type="button"
@@ -80,7 +78,7 @@ export function ThemeToggle({ variant }: { variant: 'compact' | 'segmented' }) {
   };
 
   return (
-    <div className="lp-theme-seg" role="radiogroup" aria-label="Theme">
+    <div className="lp-theme-seg" role="radiogroup" aria-label={m.theme.label}>
       {THEME_ORDER.map((id, i) => (
         <button
           key={id}

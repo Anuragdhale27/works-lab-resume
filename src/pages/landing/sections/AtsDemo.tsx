@@ -2,13 +2,17 @@ import { useState } from 'react';
 import { CONFIG } from '../../../lib/config';
 import { TEMPLATES } from '../../../templates';
 import { landingResumeData } from '../landingData';
-import { ATS_DEMO as C } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
+import { priceVars } from '../landingContent';
 import { CtaButton } from '../parts/CtaButton';
 import { ParsedText } from '../parts/ParsedText';
 import { ScaledResume } from '../parts/ScaledResume';
 import { SegmentedToggle } from '../parts/SegmentedToggle';
 
 export function AtsDemo() {
+  const { messages: m } = useLang();
+  const C = m.atsDemo;
   const [view, setView] = useState<'resume' | 'text'>('resume');
 
   return (
@@ -46,7 +50,7 @@ export function AtsDemo() {
 
           <p className="lp-atsd-note">{C.note}</p>
           <div className="lp-atsd-cta">
-            <CtaButton dataCta="ats">{C.cta(CONFIG.PRODUCT_PRICE)}</CtaButton>
+            <CtaButton dataCta="ats">{format(C.cta, priceVars(CONFIG.PRODUCT_PRICE))}</CtaButton>
           </div>
         </div>
       </div>

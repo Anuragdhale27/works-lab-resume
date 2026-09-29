@@ -4,10 +4,13 @@ import { TEMPLATES, TEMPLATE_KEYS } from '../../../templates';
 import type { TemplateKey } from '../../../types/resume';
 import { ACCENT_PRESETS } from '../../../lib/accentPresets';
 import { landingResumeData } from '../landingData';
-import { HERO } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
+import type { ColorName } from '../../../i18n/messages/types';
 import { ScaledResume } from './ScaledResume';
 
 export function HeroStudio() {
+  const { messages: m } = useLang();
   const [template, setTemplate] = useState<TemplateKey>('modern');
   const [accent, setAccent] = useState<string | undefined>(undefined);
   const tabRefs = useRef<Record<string, HTMLButtonElement | null>>({});
@@ -16,7 +19,7 @@ export function HeroStudio() {
     ...landingResumeData,
     accent,
   };
-  const accentName = ACCENT_PRESETS.find((p) => p.color === accent)?.name ?? 'Default';
+  const accentKey = (ACCENT_PRESETS.find((p) => p.color === accent)?.name ?? 'Default') as ColorName;
 
   const onTabKey = (e: KeyboardEvent<HTMLButtonElement>, index: number) => {
     const last = TEMPLATE_KEYS.length - 1;
@@ -39,10 +42,10 @@ export function HeroStudio() {
         <ScaledResume Component={TEMPLATES[template].Component} data={data} />
       </div>
       <p className="lp-sr-only" aria-live="polite">
-        Preview of the {TEMPLATES[template].name} template in {accentName}
+        {format(m.hero.studio.status, { template: TEMPLATES[template].name, accent: m.colors[accentKey] })}
       </p>
 
-      <div className="lp-studio-tabs" role="tablist" aria-label="Resume template">
+      <div className="lp-studio-tabs" role="tablist" aria-label={m.hero.studio.tabsLabel}>
         {TEMPLATE_KEYS.map((k, i) => (
           <button
             key={k}
@@ -63,7 +66,7 @@ export function HeroStudio() {
         ))}
       </div>
 
-      <div className="lp-studio-accents" role="radiogroup" aria-label="Accent colour">
+      <div className="lp-studio-accents" role="radiogroup" aria-label={m.hero.studio.accentsLabel}>
         {ACCENT_PRESETS.map((p) => {
           const checked = p.color === accent;
           return (
@@ -72,7 +75,7 @@ export function HeroStudio() {
               type="button"
               role="radio"
               aria-checked={checked}
-              aria-label={p.name}
+              aria-label={m.colors[p.name as ColorName] ?? p.name}
               className="lp-swatch"
               onClick={() => setAccent(p.color)}
             >
@@ -85,7 +88,7 @@ export function HeroStudio() {
         })}
       </div>
 
-      <p className="lp-studio-caption">{HERO.caption}</p>
+      <p className="lp-studio-caption">{m.hero.caption}</p>
     </div>
   );
 }

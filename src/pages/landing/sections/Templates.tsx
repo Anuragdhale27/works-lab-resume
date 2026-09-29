@@ -1,17 +1,20 @@
 import { TemplateCard } from '../../../components/TemplateCard';
 import { TEMPLATE_KEYS, TEMPLATES } from '../../../templates';
-import { TEMPLATES_SECTION as C } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
 import { SectionHeader } from '../parts/SectionHeader';
 
 export function Templates() {
+  const { messages: m } = useLang();
+  const C = m.templates;
   return (
     <section className="lp-tpls" id="templates" data-section="templates">
       <div className="container">
-        <SectionHeader eyebrow={C.eyebrow} title={C.title(TEMPLATE_KEYS.length)} lead={C.lead} />
+        <SectionHeader eyebrow={C.eyebrow} title={format(C.title, { count: TEMPLATE_KEYS.length })} lead={C.lead} />
         <div
           className="lp-tpls-grid"
           role="region"
-          aria-label="Resume templates, scroll sideways to see all"
+          aria-label={C.carouselLabel}
           tabIndex={0}
         >
           {TEMPLATE_KEYS.map((key) => (

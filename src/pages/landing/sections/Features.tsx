@@ -1,6 +1,8 @@
 import type { ReactNode } from 'react';
-import { FEATURES as C } from '../landingContent';
-import type { FeatureIcon, FeatureTile } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import type { Tile } from '../../../i18n/messages/types';
+import { FEATURE_LARGE_ICONS, FEATURE_SMALL_ICONS } from '../landingContent';
+import type { FeatureIcon } from '../landingContent';
 import { SectionHeader } from '../parts/SectionHeader';
 
 const ICONS: Record<FeatureIcon, ReactNode> = {
@@ -73,6 +75,7 @@ function Icon({ name }: { name: FeatureIcon }) {
 }
 
 function PreviewMock() {
+  const C = useLang().messages.features;
   return (
     <div className="lp-mock lp-mock--page" aria-hidden="true">
       <div className="lp-mock-sheet">
@@ -111,11 +114,11 @@ function ExportMock() {
   );
 }
 
-function Tile({ tile, large, children }: { tile: FeatureTile; large?: boolean; children?: ReactNode }) {
+function FeatureTile({ tile, icon, large, children }: { tile: Tile; icon: FeatureIcon; large?: boolean; children?: ReactNode }) {
   return (
     <div className={`lp-tile fade-in${large ? ' lp-tile--large' : ''}`}>
       <div className="lp-tile-copy">
-        <Icon name={tile.icon} />
+        <Icon name={icon} />
         <h3>{tile.title}</h3>
         <p>{tile.text}</p>
       </div>
@@ -125,19 +128,20 @@ function Tile({ tile, large, children }: { tile: FeatureTile; large?: boolean; c
 }
 
 export function Features() {
+  const C = useLang().messages.features;
   return (
     <section className="lp-night lp-feat" data-section="features">
       <div className="container">
         <SectionHeader eyebrow={C.eyebrow} title={C.title} tone="night" />
         <div className="lp-bento">
-          <Tile tile={C.large[0]} large>
+          <FeatureTile tile={C.large[0]} icon={FEATURE_LARGE_ICONS[0]} large>
             <PreviewMock />
-          </Tile>
-          <Tile tile={C.large[1]} large>
+          </FeatureTile>
+          <FeatureTile tile={C.large[1]} icon={FEATURE_LARGE_ICONS[1]} large>
             <ExportMock />
-          </Tile>
-          {C.small.map((t) => (
-            <Tile key={t.title} tile={t} />
+          </FeatureTile>
+          {C.small.map((t, i) => (
+            <FeatureTile key={FEATURE_SMALL_ICONS[i]} tile={t} icon={FEATURE_SMALL_ICONS[i]} />
           ))}
         </div>
       </div>

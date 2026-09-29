@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom';
 import { CONFIG } from '../../../lib/config';
-import { PRIVACY_PRICE as C } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
+import { REFUND_HREF, priceVars } from '../landingContent';
 import { SectionHeader } from '../parts/SectionHeader';
 
 export function PrivacyPrice() {
+  const { messages: m } = useLang();
+  const C = m.privacyPrice;
   return (
     <section className="lp-pp" data-section="privacy-price">
       <div className="container">
@@ -20,11 +24,11 @@ export function PrivacyPrice() {
           <div className="lp-pp-col fade-in">
             <h3>{C.price.title}</h3>
             <ul>
-              {C.price.points(CONFIG.PRODUCT_PRICE).map((p) => (
-                <li key={p}>{p}</li>
+              {C.price.points.map((p) => (
+                <li key={p}>{format(p, priceVars(CONFIG.PRODUCT_PRICE))}</li>
               ))}
             </ul>
-            <Link to={C.refundHref} className="lp-link">
+            <Link to={REFUND_HREF} className="lp-link">
               {C.refund}
             </Link>
           </div>

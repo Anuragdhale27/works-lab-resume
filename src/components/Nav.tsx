@@ -2,9 +2,18 @@ import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { CONFIG, goToPayment } from '../lib/config';
 import { ThemeToggle } from '../pages/landing/theme/ThemeToggle';
+import { LanguageSwitcher } from '../i18n/LanguageSwitcher';
+import { useLang } from '../i18n/LangContext';
+import { format } from '../i18n/format';
 
-export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showThemeToggle?: boolean } = {}) {
+export function Nav({
+  fontClass,
+  showThemeToggle,
+  showLanguage,
+}: { fontClass?: string; showThemeToggle?: boolean; showLanguage?: boolean } = {}) {
   const [open, setOpen] = useState(false);
+  const { messages: m } = useLang();
+  const vars = { price: CONFIG.PRODUCT_PRICE };
 
   return (
     <>
@@ -16,22 +25,23 @@ export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showTh
             </Link>
             <ul className="nav-links">
               <li>
-                <a href="/#templates">Templates</a>
+                <a href="/#templates">{m.nav.templates}</a>
               </li>
               <li>
-                <a href="/#how-it-works">How it works</a>
+                <a href="/#how-it-works">{m.nav.howItWorks}</a>
               </li>
               <li>
-                <a href="/#pricing">Pricing</a>
+                <a href="/#pricing">{m.nav.pricing}</a>
               </li>
               <li>
-                <a href="/#faq">FAQ</a>
+                <a href="/#faq">{m.nav.faq}</a>
               </li>
-              {showThemeToggle && (
+              {(showThemeToggle || showLanguage) && (
                 <li>
-                  {/* Slot for small nav controls (theme now, language later). */}
+                  {/* Slot for small nav controls: language and theme. */}
                   <div className="lp-nav-tools">
-                    <ThemeToggle variant="compact" />
+                    {showLanguage && <LanguageSwitcher variant="compact" />}
+                    {showThemeToggle && <ThemeToggle variant="compact" />}
                   </div>
                 </li>
               )}
@@ -45,7 +55,7 @@ export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showTh
                     goToPayment('modern');
                   }}
                 >
-                  Build resume – ₹{CONFIG.PRODUCT_PRICE}
+                  {format(m.nav.build, vars)}
                 </a>
               </li>
             </ul>
@@ -56,11 +66,11 @@ export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showTh
                 data-cta="nav"
                 onClick={() => goToPayment('modern')}
               >
-                Build ₹{CONFIG.PRODUCT_PRICE}
+                {format(m.nav.buildShort, vars)}
               </button>
               <button
                 className="nav-menu-btn"
-                aria-label="Menu"
+                aria-label={m.nav.menu}
                 aria-expanded={open}
                 aria-controls="mobileNav"
                 onClick={() => setOpen((o) => !o)}
@@ -75,10 +85,10 @@ export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showTh
       </nav>
 
       <div className={`mobile-nav${open ? ' open' : ''}${fontClass ? ` ${fontClass}` : ''}`} id="mobileNav">
-        <a href="/#templates" onClick={() => setOpen(false)}>Templates</a>
-        <a href="/#how-it-works" onClick={() => setOpen(false)}>How it works</a>
-        <a href="/#pricing" onClick={() => setOpen(false)}>Pricing</a>
-        <a href="/#faq" onClick={() => setOpen(false)}>FAQ</a>
+        <a href="/#templates" onClick={() => setOpen(false)}>{m.nav.templates}</a>
+        <a href="/#how-it-works" onClick={() => setOpen(false)}>{m.nav.howItWorks}</a>
+        <a href="/#pricing" onClick={() => setOpen(false)}>{m.nav.pricing}</a>
+        <a href="/#faq" onClick={() => setOpen(false)}>{m.nav.faq}</a>
         <a
           href="/#templates"
           className="mobile-nav-cta"
@@ -89,8 +99,9 @@ export function Nav({ fontClass, showThemeToggle }: { fontClass?: string; showTh
             goToPayment('modern');
           }}
         >
-          Build resume – ₹{CONFIG.PRODUCT_PRICE}
+          {format(m.nav.build, vars)}
         </a>
+        {showLanguage && <LanguageSwitcher variant="grid" />}
         {showThemeToggle && (
           <div className="lp-nav-tools lp-nav-tools--panel">
             <ThemeToggle variant="segmented" />

@@ -1,7 +1,8 @@
 import { FaqAccordion } from '../../../components/FaqAccordion';
-import { FAQ_SECTION as C } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
 
 export function Faq() {
+  const C = useLang().messages.faq;
   return (
     <section className="lp-faq2" id="faq" data-section="faq">
       <div className="container lp-faq2-grid">

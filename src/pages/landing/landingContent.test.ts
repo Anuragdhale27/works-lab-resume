@@ -1,10 +1,11 @@
 import { describe, it, expect } from 'vitest';
-import {
-  HERO, heroSub, heroPrimaryCta, heroFactChips, factStripItems, BEFORE_AFTER, ATS_DEMO,
-  HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA, LIST_PRICE, OFFER,
-} from './landingContent';
+import { LIST_PRICE, priceVars } from './landingContent';
 import { landingResumeData } from './landingData';
+import { en } from '../../i18n/messages/en';
+import { format } from '../../i18n/format';
+import { TEMPLATE_META_REGISTRY } from '../../templates/meta';
 
+// The audit runs against the English source of truth (`en`).
 // Matched at a word start so "preview" does not trip "review".
 const BANNED = [
   'trusted', 'thousand', 'million', 'users', 'customers', 'rated', 'rating', 'review',
@@ -14,96 +15,82 @@ const BANNED = [
 ];
 const BANNED_RE = BANNED.map((w) => new RegExp(`(^|[^a-z0-9])${w.replace('#', '\\#')}`, 'i'));
 
-/** Flatten any string / function / array / object into its strings. */
-const flatten = (v: unknown): string[] => {
-  if (typeof v === 'string') return [v];
-  if (typeof v === 'function') return flatten((v as (a: number) => unknown)(149));
-  if (Array.isArray(v)) return v.flatMap(flatten);
-  if (v && typeof v === 'object') return Object.values(v).flatMap(flatten);
+/** Every string in the messages, with its dotted path, placeholders filled with the launch price. */
+const entries = (v: unknown, path = ''): [string, string][] => {
+  if (typeof v === 'string') return [[path, format(v, priceVars(149, 6))]];
+  if (Array.isArray(v)) return v.flatMap((x, i) => entries(x, `${path}.${i}`));
+  if (v && typeof v === 'object') return Object.entries(v).flatMap(([k, x]) => entries(x, path ? `${path}.${k}` : k));
   return [];
 };
+const all = entries(en);
 
-describe('landingContent', () => {
-  const strings = [
-    ...Object.values(HERO),
-    heroSub(149),
-    heroPrimaryCta(149),
-    ...heroFactChips(149, 6),
-    ...factStripItems(149, 6).flatMap((f) => [f.title, f.text]),
-    ...Object.values(BEFORE_AFTER).flat(),
-    ...Object.values(ATS_DEMO).map((v) => (typeof v === 'function' ? v(149) : v)),
-    ...[HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA].flatMap(flatten),
-  ];
+// "Best for:" is a label for a template's audience, not a superlative claim.
+const BANNED_EXEMPT = new Set(['templates.bestFor']);
 
+// The only strings allowed to talk about an offer or a saving (the price copy).
+const PRICE_COPY = new Set(['hero.chips.2', 'pricing.launchOffer', 'pricing.save', 'pricing.srPrice']);
+
+describe('English landing copy', () => {
   it('has content to check', () => {
-    expect(strings.length).toBeGreaterThan(60);
+    expect(all.length).toBeGreaterThan(100);
   });
 
   it('contains no unverifiable claims or superlatives', () => {
-    for (const s of strings) {
+    for (const [path, s] of all) {
+      if (BANNED_EXEMPT.has(path)) continue;
       BANNED_RE.forEach((re, i) => {
-        expect(re.test(s), `"${s}" contains "${BANNED[i]}"`).toBe(false);
+        expect(re.test(s), `${path}: "${s}" contains "${BANNED[i]}"`).toBe(false);
       });
     }
   });
 
   it('keeps the exact hero headline', () => {
-    expect(HERO.title).toBe("A resume that gets past the bots and into a human's hands.");
+    expect(en.hero.title).toBe("A resume that gets past the bots and into a human's hands.");
   });
 
   it('keeps the FAQ lifetime-access wording in the pricing list', () => {
-    expect(PRICING.items(6)).toContain('Lifetime access to the builder and all six templates');
+    expect(en.pricing.items).toContain('Lifetime access to the builder and all six templates');
   });
 
   it('has six feature tiles and two large tiles', () => {
-    expect(FEATURES.small).toHaveLength(6);
-    expect(FEATURES.large).toHaveLength(2);
+    expect(en.features.small).toHaveLength(6);
+    expect(en.features.large).toHaveLength(2);
+  });
+
+  it('keeps template "best for" text in step with the template registry', () => {
+    for (const [key, meta] of Object.entries(TEMPLATE_META_REGISTRY)) {
+      expect(en.templates.best[key as keyof typeof en.templates.best]).toBe(meta.best);
+    }
   });
 });
 
 describe('launch price copy', () => {
-  const offerStrings = [
-    OFFER.label, OFFER.original(), OFFER.current(149), OFFER.savings(149), OFFER.srPrice(149), OFFER.chip(149),
-  ];
-  const all = [
-    ...Object.values(HERO),
-    heroSub(149),
-    heroPrimaryCta(149),
-    ...heroFactChips(149, 6),
-    ...factStripItems(149, 6).flatMap((f) => [f.title, f.text]),
-    ...Object.values(BEFORE_AFTER).flat(),
-    ...Object.values(ATS_DEMO).map((v) => (typeof v === 'function' ? v(149) : v)),
-    ...[HOW, TEMPLATES_SECTION, FEATURES, PRIVACY_PRICE, PRICING, FAQ_SECTION, FINAL_CTA].flatMap(flatten),
-    ...offerStrings,
-  ];
-
   it('lists a higher regular price than the current price', () => {
     expect(LIST_PRICE).toBeGreaterThan(149);
   });
 
   it('computes the saving as the plain difference', () => {
-    expect(OFFER.savings(149)).toBe(`You save ₹${LIST_PRICE - 149}`);
-    expect(OFFER.savings(149)).toBe('You save ₹151');
-    expect(OFFER.original()).toBe('₹300');
-    expect(OFFER.srPrice(149)).toBe('Original price ₹300, now ₹149');
+    const v = priceVars(149);
+    expect(v.save).toBe(LIST_PRICE - 149);
+    expect(format(en.pricing.save, v)).toBe('You save ₹151');
+    expect(format(en.pricing.srPrice, v)).toBe('Original price ₹300, now ₹149');
+    expect(format(en.hero.chips[2], v)).toBe('₹149 launch offer');
   });
 
   it('uses "offer" and "save" only in the price helpers', () => {
     const re = /\boffer|you save|savings/i;
-    const outside = all.filter((s) => !offerStrings.includes(s) && s !== FINAL_CTA.offerLabel);
-    for (const s of outside) expect(re.test(s), `"${s}" is outside the price helpers`).toBe(false);
-    expect(FINAL_CTA.offerLabel).toBe(`${OFFER.label}:`);
-    expect(heroFactChips(149, 6)).toContain(OFFER.chip(149));
+    for (const [path, s] of all) {
+      if (PRICE_COPY.has(path)) continue;
+      expect(re.test(s), `${path}: "${s}" is outside the price helpers`).toBe(false);
+    }
   });
 
   it('makes no percentage, urgency or scarcity claims', () => {
     const urgent = /%|percent|limited|hurry|\bends?\b|\bonly\b|last chance|countdown|left|expires|deadline|today only/i;
-    for (const s of all) expect(urgent.test(s), `"${s}" reads as an urgency claim`).toBe(false);
-  });
-
-  it('passes the banned-word audit', () => {
-    for (const s of offerStrings) {
-      BANNED_RE.forEach((re, i) => expect(re.test(s), `"${s}" contains "${BANNED[i]}"`).toBe(false));
+    for (const [path, s] of all) {
+      // FAQ answers are long-form product facts ("stored only in your own browser").
+      if (path.startsWith('faq.items')) continue;
+      expect(urgent.test(s), `${path}: "${s}" reads as an urgency claim`).toBe(false);
     }
   });
 });

@@ -1,7 +1,9 @@
 import type { ReactNode } from 'react';
 import { CONFIG } from '../../../lib/config';
 import { TEMPLATE_KEYS } from '../../../templates';
-import { factStripItems } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
+import { format } from '../../../i18n/format';
+import { FACT_ICONS, priceVars } from '../landingContent';
 import type { FactIcon } from '../landingContent';
 
 const ICONS: Record<FactIcon, ReactNode> = {
@@ -34,19 +36,20 @@ const ICONS: Record<FactIcon, ReactNode> = {
 };
 
 export function FactStrip() {
-  const items = factStripItems(CONFIG.PRODUCT_PRICE, TEMPLATE_KEYS.length);
+  const { messages: m } = useLang();
+  const v = priceVars(CONFIG.PRODUCT_PRICE, TEMPLATE_KEYS.length);
   return (
     <section className="lp-facts" data-section="fact-strip">
       <div className="container">
         <ul className="lp-facts-list fade-in">
-          {items.map((f) => (
-            <li key={f.icon} className="lp-fact">
+          {m.facts.map((f, i) => (
+            <li key={FACT_ICONS[i]} className="lp-fact">
               <svg className="lp-fact-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-                {ICONS[f.icon]}
+                {ICONS[FACT_ICONS[i]]}
               </svg>
               <div>
-                <p className="lp-fact-title">{f.title}</p>
-                <p className="lp-fact-text">{f.text}</p>
+                <p className="lp-fact-title">{format(f.title, v)}</p>
+                <p className="lp-fact-text">{format(f.text, v)}</p>
               </div>
             </li>
           ))}

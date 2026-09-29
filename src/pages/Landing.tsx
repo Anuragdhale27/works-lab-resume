@@ -12,6 +12,7 @@ import { Faq } from './landing/sections/Faq';
 import { FinalCta } from './landing/sections/FinalCta';
 import { useFadeIn } from '../hooks/useFadeIn';
 import { useLandingTheme } from './landing/theme/useLandingTheme';
+import { LangProvider } from '../i18n/LangContext';
 import './landing/fonts';
 import '../styles/landing.css';
 
@@ -20,20 +21,22 @@ export function Landing() {
   useLandingTheme();
 
   return (
-    <Layout variant="landing">
-      <div className="lp-page">
-        <Hero />
-        <FactStrip />
-        <BeforeAfter />
-        <AtsDemo />
-        <HowItWorks />
-        <Templates />
-        <Features />
-        <PrivacyPrice />
-        <Pricing />
-        <Faq />
-        <FinalCta />
-      </div>
-    </Layout>
+    <LangProvider>
+      <Layout variant="landing">
+        <div className="lp-page">
+          <Hero />
+          <FactStrip />
+          <BeforeAfter />
+          <AtsDemo />
+          <HowItWorks />
+          <Templates />
+          <Features />
+          <PrivacyPrice />
+          <Pricing />
+          <Faq />
+          <FinalCta />
+        </div>
+      </Layout>
+    </LangProvider>
   );
 }

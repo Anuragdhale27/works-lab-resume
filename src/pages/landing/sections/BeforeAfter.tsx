@@ -1,12 +1,14 @@
 import { useState } from 'react';
 import { TEMPLATES } from '../../../templates';
 import { landingResumeData } from '../landingData';
-import { BEFORE_AFTER as C } from '../landingContent';
+import { useLang } from '../../../i18n/LangContext';
 import { MessyResume } from '../parts/MessyResume';
 import { ScaledResume } from '../parts/ScaledResume';
 import { SegmentedToggle } from '../parts/SegmentedToggle';
 
 export function BeforeAfter() {
+  const { messages: m } = useLang();
+  const C = m.beforeAfter;
   const [view, setView] = useState<'before' | 'after'>('before');
 
   return (
