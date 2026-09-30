@@ -7,6 +7,10 @@ export interface MenuItem {
   onClick?: () => void;
   isDanger?: boolean;
   isDivider?: boolean;
+  /** Marks the item as the current choice (aria-current + checkmark). */
+  current?: boolean;
+  /** BCP-47 language of the item's own text, when it differs from the page. */
+  lang?: string;
   disabled?: boolean;
 }
 
@@ -143,8 +147,11 @@ export function Menu({ trigger, items, ariaLabel }: MenuProps) {
                 onClick={() => handleItemClick(item)}
                 disabled={item.disabled}
                 aria-disabled={item.disabled || undefined}
+                aria-current={item.current ? 'true' : undefined}
+                lang={item.lang}
               >
                 <span className="menu-item-label">{item.label}</span>
+                {item.current && <span className="menu-item-check" aria-hidden="true">✓</span>}
                 {item.description && <span className="menu-item-description">{item.description}</span>}
               </button>
             ),

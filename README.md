@@ -15,6 +15,19 @@ subscription.
 
 ## Latest updates
 
+**Landing page redesign**
+- New product-led homepage: an interactive hero where you switch template and accent colour on a
+  live resume, a before/after comparison, and a "what an ATS extracts" text demo. Every claim on
+  the page is a product fact; there are no invented user counts, ratings or logos.
+- Dark mode that follows your system setting by default, with a System / Light / Dark toggle.
+  Sample resumes stay on white paper because they show the real product.
+- Available in English, Hindi, Marathi, Bengali, Tamil and Telugu (landing page only). Translations
+  are lazy-loaded and the Bengali, Tamil and Telugu fonts load only when selected. The
+  translations are machine-written and need native-speaker review.
+- Launch pricing shown as ₹300 struck through, now ₹149 (one-time, no subscription).
+- The mobile top bar stays pinned with the logo and the build button. The landing page uses
+  Poppins throughout; the builder and templates keep their own fonts.
+
 **Builder** (PRs #6 and #19)
 - Bullet points in work experience, projects and custom sections, with an "• Add bullet" button
   and Enter-to-continue lists. Bullets print as real lists, so ATS parsers read them as text.
