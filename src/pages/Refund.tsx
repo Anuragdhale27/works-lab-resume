@@ -1,8 +1,9 @@
+import './landing/fonts';
 import { Layout } from '../components/Layout';
 
 export function Refund() {
   return (
-    <Layout>
+    <Layout variant="site">
       <section className="legal-page">
         <div className="container">
           <h1 className="section-title" style={{ fontSize: '2rem', marginBottom: '32px' }}>

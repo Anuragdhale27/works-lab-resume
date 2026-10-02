@@ -1,3 +1,4 @@
+import './landing/fonts';
 import { Link, Navigate, useParams } from 'react-router-dom';
 import { Layout } from '../components/Layout';
 import { TemplatePreview } from '../components/TemplatePreview';
@@ -15,7 +16,7 @@ export function TemplateDetail() {
   const others = TEMPLATE_KEYS.filter((k) => k !== templateKey);
 
   return (
-    <Layout>
+    <Layout variant="site">
       <section className="template-detail-hero">
         <div className="container">
           <Link to="/#templates" className="back-link">

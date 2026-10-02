@@ -1,0 +1,11 @@
+/* Poppins on the "site" pages (privacy, terms, refund, template detail).
+   Layout variant="site" puts .lp-font .lp-site on <main> (landing is excluded
+   on purpose). The resume preview keeps each template's own fonts. */
+main.lp-site :not(.template-detail-frame, .template-detail-frame *) {
+  font-family: var(--lp-font);
+}
+main.lp-site .section-title {
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
