@@ -158,7 +158,6 @@ export const en: Messages = {
       points: [
         'No account to create.',
         'No backend: your details are saved in your browser, on your device.',
-        'The site is static, hosted on GitHub Pages.',
       ],
     },
     price: {

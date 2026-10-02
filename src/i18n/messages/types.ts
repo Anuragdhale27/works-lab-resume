@@ -130,7 +130,7 @@ export interface Messages {
   privacyPrice: {
     eyebrow: string;
     title: string;
-    privacy: { title: string; points: Tuple<string, 3> };
+    privacy: { title: string; points: Tuple<string, 2> };
     price: { title: string; points: Tuple<string, 3> };
     refund: string;
     note: string;

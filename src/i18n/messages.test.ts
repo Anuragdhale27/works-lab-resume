@@ -30,7 +30,7 @@ const SCRIPT: Record<Exclude<LangCode, 'en'>, RegExp> = {
 const TEMPLATE_NAMES = Object.values(TEMPLATE_META_REGISTRY).flatMap((t) => [t.name, t.name.replace(' ATS', '')]);
 const ALLOWED_TERMS = [
   ...TEMPLATE_NAMES,
-  'Download PDF', 'Save as PDF', 'Microsoft Word', 'GitHub Pages', 'Works Lab', 'WorksLab',
+  'Download PDF', 'Save as PDF', 'Microsoft Word', 'Works Lab', 'WorksLab',
   'ATS', 'PDF', 'Word', 'docx', 'JSON', 'A4',
 ].sort((a, b) => b.length - a.length);
 
